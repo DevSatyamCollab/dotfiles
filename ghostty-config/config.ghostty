@@ -1,47 +1,49 @@
-custom-shader = shaders/cursor_trail.glsl
-theme = TokyoNight
 
-# Windows
-window-decoration = true
-fullscreen = true
-window-theme = ghostty
-window-padding-x = 10
-window-padding-y = 10
-window-padding-color = extend
-window-padding-balance = true
+# cursor shaders
 
-# Path to your image
-background-image = ../../personal/assets/Sukuna.jpg
-background-image-fit = cover
+#custom-shader = shaders/cursor_blaze_no_trail.glsl
+custom-shader = shaders/cursor_smear.glsl
 
-# Set the opacity of the IMAGE itself (0.0 to 1.0)
-background-image-opacity = 0.09
+cursor-style-blink = false
 
-# Transparency and Blur
-background-opacity = 1.0
-background-blur-radius = 20
-
-# Font
-font-family = CaskaydiaMono Nerd Font
+font-family = "JetBrainsMono Nerd Font"
+font-codepoint-map = U+E000=Linkarzu Logo
 font-size = 16
 
-# Mouse
-mouse-scroll-multiplier = 2
-copy-on-select = clipboard
-mouse-hide-while-typing = true 
+confirm-close-surface = false
 
-# Scrolling
-scroll-to-bottom = keystroke,output
+keybind = cmd+s=toggle_quick_terminal
 
-# Cursor
-shell-integration-features = no-cursor
-cursor-color = #ff00ff
-cursor-text = #000000
+# Duration (in seconds) of the quick terminal enter and exit animation.
+# Set it to 0 to disable animation completely. This can be changed at
+# runtime.
+# quick-terminal-animation-duration = 0.1
+#quick-terminal-animation-duration = 0.08
+quick-terminal-animation-duration = 0
 
-# Keybinds
+keybind = super+i=inspector:toggle
+keybind = super+r=reload_config
+
+background-opacity = 1
+
+background-blur = true
+
+unfocused-split-opacity = 0.7
+
+#custom
+
+background-image = ~/personal/assets/stars.png
+background-image-position = center
+background-image-fit = cover
+cursor-color = #00ffff
 keybind = ctrl+v=paste_from_clipboard
 
-# Split divider
-split-divider-color = #9acd32
-
+window-decoration = true
+fullscreen = true
+window-save-state = always
+title = "Bash_master(Ghostty)"
+#theme = Material Design Colors
+theme = Adwaita Dark
+custom-shader-animation = true
+bell-features = border
 

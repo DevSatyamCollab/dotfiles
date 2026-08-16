@@ -1,6 +1,7 @@
 # ==========================================
 # History Configuration
 # ==========================================
+
 HISTFILE="$XDG_STATE_HOME/zsh/history"
 HISTSIZE=1000
 SAVEHIST=2000
@@ -13,6 +14,7 @@ setopt hist_ignore_space
 # ==========================================
 # Shell Behaviour
 # ==========================================
+
 setopt AUTOCD
 setopt NOBEEP
 setopt NUMERIC_GLOB_SORT # sort file10 after file9, not after file1
@@ -34,7 +36,6 @@ zstyle ':completion:*' menu select
 # Example: "doc" can complete to "Documents"
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'  # lowercase input matches upper and lower
 
-
 # =========================================================
 # Modular Config Files
 # =========================================================
@@ -45,6 +46,7 @@ source "$ZDOTDIR/plugins.zsh"
 # ==========================================
 # Environment Variables & Paths
 # ==========================================
+
 export PATH=$PATH:/home/bash_master/.local/bin
 export PATH=/usr/local/go/bin:$PATH
 export TZ='Asia/Kolkata'
@@ -67,14 +69,18 @@ export NVM_DIR="$HOME/.nvm"
 # ==========================================
 # Aliases
 # ==========================================
+
 alias ls='eza --icons'
 alias ll='eza -l --icons --header --git --group-directories-first'
 alias la='eza -la --icons --header --git --group-directories-first'
 alias lg='lazygit'
-alias gho='ghostty'
 alias bat='batcat'
 alias vi='nvim'
 alias gho='ghostty'
+alias brave='/mnt/c/Program\ Files/BraveSoftware/Brave-Browser/Application/brave.exe'
+alias zen='/mnt/c/Program\ Files/Zen\ Browser/zen.exe'
+
+alias j='z'
 
 # Alert alias adapted for zsh
 alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(fc -ln -1 | sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
@@ -82,6 +88,7 @@ alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo
 # ==========================================
 # Tool Initializations
 # ==========================================
+
 # Oh-My-Posh (Zsh specific init)
 eval "$(oh-my-posh init zsh --config '/home/bash_master/.poshthemes/custom_bash_master.omp.json')"
 
@@ -96,27 +103,35 @@ eval "$(zoxide init zsh)"
 tmux() {
     if [[ "$*" == "" ]]; then
         command tmux new-session -A -s work 
-        #\; \
-         #   popup -h 100% -w 100% -E  'tmux attach -t work'
+       # \; \
+       #     display-popup -h 100% -w 100% -E  'tmux attach -t work'
     else
         command tmux "$@"
     fi
 }
 
+# Start tmux only when running inside Ghostty terminal
+if [[ "$TERM_PROGRAM" == "ghostty" ]]; then
+    exec tmux 
+fi
+
+
 # Open file in nvim using fzf
+#vf() {
+#  local file
+#  file=$(fzf --preview 'batcat --color=always {}')
+#  if [[ -n "$file" ]]; then
+#    nvim "$file"
+#  fi
+#}
+
 vf() {
   local file
-  file=$(fzf --preview 'batcat --color=always {}')
+  file=$(find . -type f 2>/dev/null | fzf --preview 'batcat --color=always {}')
   if [[ -n "$file" ]]; then
     nvim "$file"
   fi
 }
-
-# attach tmux in ghostty 
-if [[ "$TERM_PROGRAM" == "ghostty" ]]; then
-   exec tmux 
-fi
-
 
 # Tab: accept autosuggestion if one is showing, otherwise normal completion
 _tab_accept_or_complete() {
@@ -126,5 +141,12 @@ _tab_accept_or_complete() {
     zle expand-or-complete
   fi
 }
+
 zle -N _tab_accept_or_complete
 bindkey '^I' _tab_accept_or_complete
+
+
+export BROWSER=/usr/local/bin/brave-browser
+
+. "$HOME/.local/share/../bin/env"
+
